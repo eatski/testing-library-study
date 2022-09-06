@@ -1,53 +1,12 @@
-import { useEffect, useState } from "react"
-
-type State = {
-    status: "loading" | "error" | "notfound",
-} | {
-    status: "success",
-    data: {
-        name: string,
-        photo: string
-    }
-}
+import { usePokemonAPI } from "./usePokemonAPI"
 
 export const Pokemon: React.FC<{id: string}> = ({id}) => {
-    const [state,setState] = useState<State>({
-        status: "loading"
-    });
-    useEffect(() => {
-        const asyncFn = async () => {
-            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-                switch (response.status) {
-                    case 404:
-                        setState({
-                            status: "notfound"
-                        })
-                        break;
-                    case 200:
-                        const data = await response.json();
-                        setState({
-                            status: "success",
-                            data: {
-                                name: data.name,
-                                photo: data.sprites.front_default
-                            }
-                        })
-                        break;
-                    default:
-                        setState({
-                            status: "error"
-                        })
-                        break;
-                }
-        }
-        asyncFn()
-    },[id])
-
-    switch (state.status) {
+    const result = usePokemonAPI(id);
+    switch (result.status) {
         case "success":
             return <main>
-                <h1>{state.data.name}</h1>
-                <img src={state.data.photo} alt={state.data.name}/>
+                <h1>{result.data.name}</h1>
+                <img src={result.data.photo} alt={result.data.name}/>
             </main>
         case "loading":
             return <main>
