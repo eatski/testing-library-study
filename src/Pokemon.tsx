@@ -10,7 +10,7 @@ type State = {
     }
 }
 
-export const Profile: React.FC<{id: string}> = ({id}) => {
+export const Pokemon: React.FC<{id: string}> = ({id}) => {
     const [state,setState] = useState<State>({
         status: "loading"
     });
@@ -51,7 +51,7 @@ export const Profile: React.FC<{id: string}> = ({id}) => {
             </main>
         case "loading":
             return <main>
-                <span className="loading" aria-label="Loading" />
+                <span role={"img"} className="loading" aria-label="Loading" />
             </main>
         case "error":
             return <main>

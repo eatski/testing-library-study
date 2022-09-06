@@ -1,4 +1,4 @@
-import {Profile}  from "./Pokemon"
+import {Pokemon}  from "./Pokemon"
 import { rest } from "msw";
 import {setupServer} from "msw/node"
 import {render, screen} from '@testing-library/react'
@@ -21,19 +21,19 @@ describe("Pokemon",() => {
       })))
       afterAll(() => worker.resetHandlers())
       test("nameをheadingとして表示する",async () => {
-        render(<Profile id="35"/>)
+        render(<Pokemon id="35"/>)
         await expect(screen.findByRole("heading",{
           name: "ピッピ"
         })).resolves.toBeInTheDocument()
       })
       test("sprites.front_defaultをimgとして表示する",async () => {
-          render(<Profile id="35"/>)
+          render(<Pokemon id="35"/>)
           await expect(screen.findByRole("img",{
               name: "ピッピ"
           })).resolves.toHaveAttribute("src","http://example.com/ピッピ.png")
       })
       test("データが返ってくるまではローディングを表示する",() => {
-        render(<Profile id="35"/>)
+        render(<Pokemon id="35"/>)
         expect(screen.getByLabelText("Loading")).toBeInTheDocument()
       })
     })
@@ -45,7 +45,7 @@ describe("Pokemon",() => {
       })))
       afterAll(() => worker.resetHandlers())
       test("「Server Error」を表示する",async () => {
-          render(<Profile id="35"/>)
+          render(<Pokemon id="35"/>)
           await expect(screen.findByText("Server Error")).resolves.toBeInTheDocument()
       })
     })
@@ -57,7 +57,7 @@ describe("Pokemon",() => {
       })))
       afterAll(() => worker.resetHandlers())
       test("「Not Found」を表示する",async () => {
-          render(<Profile id="35"/>)
+          render(<Pokemon id="35"/>)
           await expect(screen.findByText("Not Found")).resolves.toBeInTheDocument()
       })
     })
